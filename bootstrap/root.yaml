@@ -19,6 +19,6 @@ spec:
       targetRevision: HEAD
   syncPolicy:
     automated:
-      allowEmpty: false
-      prune: false
-      selfHeal: false
+      allowEmpty: true
+      prune: true
+      selfHeal: true
