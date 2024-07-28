@@ -10,9 +10,13 @@ spec:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: default
-  source:
-    path: projects
-    repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
+  sources:
+    - path: bootstrap/infra
+      repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
+      targetRevision: HEAD
+    - path: .
+      repoURL: git@github.com:AnhQuanTrl/microservice-demo-onlineboutique-apps.git
+      targetRevision: HEAD
   syncPolicy:
     automated:
       allowEmpty: false
