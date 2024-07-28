@@ -10,7 +10,7 @@ spec:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: default
-  sources:
+  source:
     path: projects
     repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
   syncPolicy:
