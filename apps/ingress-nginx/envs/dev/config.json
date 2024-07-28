@@ -1,5 +1,5 @@
 {
-  "appName": "external-secrets",
-  "destNamespace": "external-secrets",
+  "appName": "ingress-nginx",
+  "destNamespace": "ingress-nginx",
   "destServer": "dev"
 }
