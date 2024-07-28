@@ -12,3 +12,10 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
   name: external-secrets
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+  name: online-boutique
