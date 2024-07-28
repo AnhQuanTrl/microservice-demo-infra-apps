@@ -7,4 +7,4 @@ resources:
   - resources/secret-stores.yaml
 patches:
   - path: patches/argocd-cmd-params-cm.yaml
-  - path: argocd-cm.yaml
+  - path: patches/argocd-cm.yaml
