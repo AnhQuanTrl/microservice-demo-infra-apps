@@ -45,6 +45,8 @@ spec:
         argocd.argoproj.io/sync-wave: '{{ dig "syncWave" "0" . }}'
       name: "management-{{ .appName }}"
       namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
       destination:
         namespace: "{{ .destNamespace }}"

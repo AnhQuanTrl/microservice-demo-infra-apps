@@ -1,65 +1,67 @@
-# ---
-# apiVersion: argoproj.io/v1alpha1
-# kind: AppProject
-# metadata:
-#   name: dev
-#   namespace: argocd
-#   annotations:
-#     argocd.argoproj.io/sync-options: PruneLast=true
-#     argocd.argoproj.io/sync-wave: "-2"
-# spec:
-#   clusterResourceWhitelist:
-#     - group: "*"
-#       kind: "*"
-#   description: dev project
-#   destinations:
-#     - namespace: "*"
-#       server: "*"
-#   namespaceResourceWhitelist:
-#     - group: "*"
-#       kind: "*"
-#   sourceRepos:
-#     - "*"
-# ---
-# apiVersion: argoproj.io/v1alpha1
-# kind: ApplicationSet
-# metadata:
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "0"
-#   name: dev
-#   namespace: argocd
-# spec:
-#   generators:
-#     - git:
-#         repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
-#         revision: HEAD
-#         files:
-#           - path: apps/**/envs/dev/config.json
-#   goTemplate: true
-#   goTemplateOptions: ["missingkey=error"]
-#   template:
-#     metadata:
-#       labels:
-#         app.kubernetes.io/name: "{{ .appName }}"
-#       annotations:
-#         argocd.argoproj.io/sync-wave: '{{ dig "syncWave" "0" . }}'
-#       name: "dev-{{ .appName }}"
-#       namespace: argocd
-#     spec:
-#       destination:
-#         namespace: "{{ .destNamespace }}"
-#         server: "{{ .destServer }}"
-#       project: dev
-#       source:
-#         path: apps/{{ .appName }}/base
-#         helm:
-#           valueFiles:
-#             - values.yaml
-#             - ../envs/dev/values.yaml
-#         repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
-#         targetRevision: HEAD
-#       syncPolicy:
-#         automated:
-#           allowEmpty: true
-#           prune: true
-#           selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-options: PruneLast=true
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  description: dev project
+  destinations:
+    - namespace: "*"
+      server: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  sourceRepos:
+    - "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: dev
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
+        revision: HEAD
+        files:
+          - path: apps/**/envs/dev/config.json
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "{{ .appName }}"
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ dig "syncWave" "0" . }}'
+      name: "dev-{{ .appName }}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: "{{ .destNamespace }}"
+        server: "{{ .destServer }}"
+      project: dev
+      source:
+        path: apps/{{ .appName }}/base
+        helm:
+          valueFiles:
+            - values.yaml
+            - ../envs/dev/values.yaml
+        repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
+        targetRevision: HEAD
+      syncPolicy:
+        automated:
+          allowEmpty: true
+          prune: true
+          selfHeal: true
