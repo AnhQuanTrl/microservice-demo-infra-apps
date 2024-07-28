@@ -51,7 +51,11 @@ spec:
         server: "{{ .destServer }}"
       project: management
       source:
-        path: apps/{{ .appName }}/envs/management
+        path: apps/{{ .appName }}
+        helm:
+          valueFiles:
+            - values.yaml
+            - ../envs/management/values.yaml
         repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
         targetRevision: HEAD
       syncPolicy:
