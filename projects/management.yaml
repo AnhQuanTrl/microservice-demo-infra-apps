@@ -1,0 +1,61 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: management
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-options: PruneLast=true
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  description: management project
+  destinations:
+    - namespace: "*"
+      server: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  sourceRepos:
+    - "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: management
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
+        revision: HEAD
+        files:
+          - path: apps/**/envs/management/config.json
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "{{ .appName }}"
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ dig "syncWave" "0" . }}'
+      name: "management-{{ .appName }}"
+      namespace: argocd
+    spec:
+      destination:
+        namespace: "{{ .destNamespace }}"
+        server: "{{ .destServer }}"
+      project: management
+      source:
+        path: apps/{{ .appName }}/envs/management
+        repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
+        targetRevision: HEAD
+      syncPolicy:
+        automated:
+          allowEmpty: true
+          prune: true
+          selfHeal: true
