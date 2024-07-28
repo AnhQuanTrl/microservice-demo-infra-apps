@@ -53,6 +53,7 @@ spec:
       source:
         path: apps/{{ .appName }}/base
         helm:
+          releaseName: "{{ .appName }}"
           valueFiles:
             - values.yaml
             - ../envs/management/values.yaml

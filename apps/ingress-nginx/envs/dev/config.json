@@ -1,0 +1,5 @@
+{
+  "appName": "external-secrets",
+  "destNamespace": "external-secrets",
+  "destServer": "https://kubernetes.default.svc"
+}
