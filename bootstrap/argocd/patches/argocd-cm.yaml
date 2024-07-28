@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+data:
+  # application.resourceTrackingMethod: annotation
+  resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition:
+    |
+    jqPathExpressions:
+    - '.spec.conversion.webhook.clientConfig.caBundle'
+  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration:
+    |
+    managedFieldsManagers:
+      - external-secrets
+  resource.customizations.knownTypeFields.postgresql.cnpg.io_Cluster: |
+    - field: spec.resources
+      type: core/v1/ResourceRequirements
