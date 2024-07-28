@@ -5,18 +5,16 @@ metadata:
   namespace: argocd
   labels:
     app.kubernetes.io/name: root
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: default
-  source:
+  sources:
     path: projects
     repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
   syncPolicy:
     automated:
-      allowEmpty: true
-      prune: true
-      selfHeal: true
+      allowEmpty: false
+      prune: false
+      selfHeal: false

@@ -1,10 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infra-apps
+  name: infra
   namespace: argocd
   labels:
-    app.kubernetes.io/name: infra-apps
+    app.kubernetes.io/name: infra
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: argocd
@@ -15,6 +17,6 @@ spec:
     repoURL: git@github.com:AnhQuanTrl/microservice-demo-infra-apps.git
   syncPolicy:
     automated:
-      allowEmpty: false
-      prune: false
-      selfHeal: false
+      allowEmpty: true
+      prune: true
+      selfHeal: true
