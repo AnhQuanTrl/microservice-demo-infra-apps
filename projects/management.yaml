@@ -51,7 +51,7 @@ spec:
         server: "{{ .destServer }}"
       project: management
       source:
-        path: apps/{{ .appName }}
+        path: apps/{{ .appName }}/base
         helm:
           valueFiles:
             - values.yaml
