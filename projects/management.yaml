@@ -47,6 +47,7 @@ spec:
       namespace: argocd
     spec:
       destination:
+        namespace: "{{ .destNamespace }}"
         server: "{{ .destServer }}"
       project: management
       source:
